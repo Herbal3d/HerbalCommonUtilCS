@@ -54,31 +54,60 @@ namespace org.herbal3d.cs.CommonUtil {
 
                 if (pConfigParams != null && pConfigParams.HasParam(paramName)) {
                     // Required parameter value is in application parameters. Start with that value.
-                    Params.Add(paramName, pConfigParams.GetObjectValue(paramName));
+                    SetParam(paramName, pConfigParams.GetObjectValue(paramName));
                 }
-                if (pPassedParams != null
-                            && (pPassedParams.Params.ContainsKey(paramName)
-                                || pPassedParams.Params.ContainsKey(paramNameX)) ) {
+                if (pPassedParams != null && pPassedParams.HasParam(paramName)) {
                     // parameter value has been passed so it override config file
-                    if (!pPassedParams.Params.TryGetValue(paramNameX, out object vall)) {
-                        pPassedParams.Params.TryGetValue(paramName, out vall);
-                    }
-                    if (Params.ContainsKey(paramName)) {
-                        Params[paramName] = vall;
-                    }
-                    else {
-                        Params.Add(paramName, vall);
-                    }
+                    SetParam(paramName, pPassedParams.GetValue(paramName));
                 }
                 // If the above doesn't define a value, enter the default value
-                if (pRequiredParams != null && !Params.ContainsKey(paramName)) {
-                    Params.Add(paramName, pRequiredParams.Params[paramNameX]);
+                if (!Params.ContainsKey(paramName)) {
+                    SetParam(paramName, pRequiredParams.Params[paramNameX]);
                 }
             }
         }
 
         public bool HasParam(string pParamName) {
-            return Params.ContainsKey(pParamName.ToLower());
+            bool ret = false;
+            string key = pParamName.ToLower();
+            if (Params.ContainsKey(key)) {
+                ret = true;
+            }
+            else {
+                foreach (var kvp in Params) {
+                    if (kvp.Key.ToLower() == key) {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+            return ret;
+        }
+        public void SetParam(string pParamName, object pVal) {
+            string key = pParamName.ToLower();
+            if (Params.ContainsKey(key)) {
+                Params[key] = pVal;
+            }
+            else {
+
+                Params.Add(key, pVal);
+            }
+        }
+        public object GetValue(string pParamName) {
+            object val = null;
+            string key = pParamName.ToLower();
+            if (Params.ContainsKey(key)) {
+                val = Params[key];
+            }
+            else {
+                foreach (var kvp in Params) {
+                    if (kvp.Key.ToLower() == key) {
+                        val = Params[kvp.Key];
+                        break;
+                    }
+                }
+            }
+            return val;
         }
 
         // Get the parameter value of the type desired
@@ -129,6 +158,33 @@ namespace org.herbal3d.cs.CommonUtil {
                         }
                         else {
                             ret = (T)Convert.ChangeType(val, typeof(T));
+                        }
+                    }
+                }
+                catch (Exception) {
+                    ret = default;
+                }
+            }
+            return ret;
+        }
+
+        public static object ConvertToObj(Type pT, object pVal) {
+            object ret = null;
+            if (pVal.GetType() == pT) {
+                ret = pVal;
+            }
+            else {
+                try {
+                    //Handling Nullable types i.e, int?, double?, bool? .. etc
+                    if (Nullable.GetUnderlyingType(pT) != null) {
+                        ret = TypeDescriptor.GetConverter(pT).ConvertFrom(pVal);
+                    }
+                    else {
+                        if (pVal.GetType().GetMethod("ConvertTo") != null) {
+                            ret = pVal.GetType().GetMethod("ConvertTo").Invoke(pVal, new object[] { pT });
+                        }
+                        else {
+                            ret = Convert.ChangeType(pVal, pT);
                         }
                     }
                 }

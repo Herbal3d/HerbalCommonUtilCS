@@ -59,19 +59,19 @@ namespace org.herbal3d.cs.CommonUtil {
             { LogLevels.Error, NLog.LogLevel.Error },
         };
 
-        public BLogger(IParameters pParams) {
+        public BLogger(string logBaseFilename, bool logToConsole = false, bool logToFile = false) {
             var config = new NLog.Config.LoggingConfiguration();
 
-            if (pParams.P<bool>(LogParameters.LogToConsole)) {
+            if (logToConsole) {
                 var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
                 config.AddRule(LogLevel.Trace, LogLevel.Fatal, logconsole);
             }
 
-            if (pParams.P<bool>(LogParameters.LogToFile)) {
+            if (logToFile) {
                 // https://github.com/NLog/NLog/wiki/Configure-from-code
                 var logfile = new NLog.Targets.FileTarget("logfile") {
                     // https://github.com/nlog/nlog/wiki/File-target
-                    FileName = pParams.P<string>(LogParameters.LogBaseFilename) ?? "${basedir}/Logs/logfile.log",
+                    FileName = logBaseFilename ?? "${basedir}/Logs/logfile.log",
                     CreateDirs = true,
                     LineEnding = NLog.Targets.LineEndingMode.LF,
                     // https://github.com/nlog/nlog/wiki/FileTarget-Archive-Examples#archive-numbering-examples
