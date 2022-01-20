@@ -26,7 +26,7 @@ namespace org.herbal3d.cs.CommonUtil {
         public static string LogBaseFilename = "LogBaseFilename"; // boolean
     }
 
-    public interface IBLogger {
+    public interface BLogger {
         void SetLogLevel(LogLevels pLevel);
         void Trace(string pMsg, params Object[] pArgs);
         void Debug(string pMsg, params Object[] pArgs);
@@ -43,11 +43,7 @@ namespace org.herbal3d.cs.CommonUtil {
         Error
     }
 
-    public abstract class BLogOutputter {
-        public abstract void Output(LogLevels pLevel, string pMsg, params Object[] pArgs);
-    }
-
-    public class BLogger: IBLogger {
+    public class BLoggerNLog: BLogger {
         protected LogLevels _logLevel = LogLevels.Information;
         protected NLog.Logger _logger;
 
@@ -59,7 +55,7 @@ namespace org.herbal3d.cs.CommonUtil {
             { LogLevels.Error, NLog.LogLevel.Error },
         };
 
-        public BLogger(string logBaseFilename, bool logToConsole = false, bool logToFile = false) {
+        public BLoggerNLog(string logBaseFilename, bool logToConsole = false, bool logToFile = false) {
             var config = new NLog.Config.LoggingConfiguration();
 
             if (logToConsole) {
@@ -96,7 +92,7 @@ namespace org.herbal3d.cs.CommonUtil {
             _logLevel = pLevel;
         }
         private void DoLog(LogLevels pLevel, string pMsg, params Object[] pArgs) {
-            _logger.Log(BLogger.LogLevelMap[pLevel], pMsg, pArgs);
+            _logger.Log(BLoggerNLog.LogLevelMap[pLevel], pMsg, pArgs);
         }
         public void Trace(string pMsg, params Object[] pArgs) {
             if (_logLevel == LogLevels.Trace || _logLevel == LogLevels.Debug) {

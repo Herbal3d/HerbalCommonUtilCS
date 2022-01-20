@@ -14,7 +14,7 @@ namespace org.herbal3d.cs.CommonUtil {
         public string desc;         // a short description of what the parameter means
         public abstract Type GetValueType();
         public string[] symbols;    // extra command line versions of parameter (short form)
-        public IBLogger logger;      // used only for debugging and error output
+        public BLogger logger;      // used only for debugging and error output
         public string _logHeader = "[ParameterDefnBase]";
 
         public ParameterDefnBase(string pName, string pDesc, string[] pSymbols)
@@ -103,13 +103,13 @@ namespace org.herbal3d.cs.CommonUtil {
 
     public class ServiceParameters: IParameters {
 
-        protected readonly IBLogger _logger;          // used for debugging and error reporting
+        protected readonly BLogger _logger;          // used for debugging and error reporting
         protected string _logHeader = "[ServiceParameters]";
 
         // The predefined parameters for this service
         protected ParameterDefnBase[] ParameterDefinitions;
 
-        public ServiceParameters(IBLogger pLogger) {
+        public ServiceParameters(BLogger pLogger) {
             _logger = pLogger;
         }
 
@@ -173,7 +173,7 @@ namespace org.herbal3d.cs.CommonUtil {
         }
 
         // Pass through the settable parameters and set the default values
-        public void SetParameterDefaultValues(IBLogger pLogger)
+        public void SetParameterDefaultValues(BLogger pLogger)
         {
             foreach (ParameterDefnBase parm in ParameterDefinitions)
             {
