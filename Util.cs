@@ -29,12 +29,12 @@ namespace org.herbal3d.cs.CommonUtil {
 
         // Returns a string of the passed length of a random.
         // Note that this is not cryptographically random.
+        static Random _randomStringRandom = new Random();
         public static string RandomString(int pLen) {
             int len = Clamp<int>(pLen, 0, 128);
             string digits = "0123456789";
-            var rand = new Random();
             return String.Join("", Enumerable.Range(0, len).Select( ii => {
-                return digits[rand.Next(0, 10)];
+                return digits[_randomStringRandom.Next(0, 10)];
             }) );
         }
 
