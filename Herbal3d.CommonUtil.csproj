@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Herbal3d.CommonUtilCS</AssemblyName>
     <RootNamespace>org.herbal3d.cs.CommonUtil</RootNamespace>
+    <BaseOutputPath>..\..\..\bin\</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

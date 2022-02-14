@@ -130,6 +130,14 @@ namespace org.herbal3d.cs.CommonUtil {
             return this;
         }
 
+        // Add values from another ParamBlock to this ParamBlock
+        public ParamBlock Add(ParamBlock pParams) {
+            foreach (var kvp in pParams.Params) {
+                this.Add(kvp.Key, kvp.Value);
+            }
+            return this;
+        }
+
         public void Remove(string pName) {
             string pNameLower = pName.ToLower();
             if (Params.ContainsKey(pNameLower)) {
