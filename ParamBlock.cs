@@ -17,12 +17,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text;
 
 namespace org.herbal3d.cs.CommonUtil {
     // ParamBlock is a collection of key/value pairs.
     public class ParamBlock : IParameters {
 
+        // Params are kept in two dictionaries with a main name and a lower case name
         public Dictionary<string, object> Params = new Dictionary<string, object>();
+        public Dictionary<string, object> LowerParams = new Dictionary<string, object>();
 
         public ParamBlock() {
         }
@@ -68,44 +71,32 @@ namespace org.herbal3d.cs.CommonUtil {
         }
 
         public bool HasParam(string pParamName) {
-            bool ret = false;
             string key = pParamName.ToLower();
-            if (Params.ContainsKey(key)) {
-                ret = true;
-            }
-            else {
-                foreach (var kvp in Params) {
-                    if (kvp.Key.ToLower() == key) {
-                        ret = true;
-                        break;
-                    }
-                }
-            }
-            return ret;
+            return LowerParams.ContainsKey(key);
         }
         public void SetParam(string pParamName, object pVal) {
             string key = pParamName.ToLower();
-            if (Params.ContainsKey(key)) {
-                Params[key] = pVal;
-            }
-            else {
-
-                Params.Add(key, pVal);
+            lock (Params) {
+                if (LowerParams.ContainsKey(key)) {
+                    LowerParams[key] = pVal;
+                    foreach (var kvp in Params) {
+                        if (kvp.Key.ToLower() == key) {
+                            Params[kvp.Key] = pVal;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    Params.Add(pParamName, pVal);
+                    LowerParams.Add(key, pVal);
+                }
             }
         }
         public object GetValue(string pParamName) {
             object val = null;
             string key = pParamName.ToLower();
-            if (Params.ContainsKey(key)) {
-                val = Params[key];
-            }
-            else {
-                foreach (var kvp in Params) {
-                    if (kvp.Key.ToLower() == key) {
-                        val = Params[kvp.Key];
-                        break;
-                    }
-                }
+            if (LowerParams.ContainsKey(key)) {
+                val = LowerParams[key];
             }
             return val;
         }
@@ -113,20 +104,23 @@ namespace org.herbal3d.cs.CommonUtil {
         // Get the parameter value of the type desired
         public T P<T>(string pParam) {
             T ret = default;
-            if (Params.TryGetValue(pParam.ToLower(), out object val)) {
+            if (LowerParams.TryGetValue(pParam.ToLower(), out object val)) {
                 ret = ConvertTo<T>(val);
             }
             return ret;
         }
 
         public object GetObjectValue(string pParamName) {
-            Params.TryGetValue(pParamName.ToLower(), out object ret);
+            LowerParams.TryGetValue(pParamName.ToLower(), out object ret);
             return ret;
             
         }
 
         public ParamBlock Add(string pName, Object pValue) {
-            Params.Add(pName.ToLower(), pValue);
+            lock (Params) {
+                Params.Add(pName, pValue);
+                LowerParams.Add(pName.ToLower(), pValue);
+            }
             return this;
         }
 
@@ -140,8 +134,16 @@ namespace org.herbal3d.cs.CommonUtil {
 
         public void Remove(string pName) {
             string pNameLower = pName.ToLower();
-            if (Params.ContainsKey(pNameLower)) {
-                Params.Remove(pNameLower);
+            lock (Params) {
+                if (LowerParams.ContainsKey(pNameLower)) {
+                    LowerParams.Remove(pNameLower);
+                    foreach (var kvp in Params) {
+                        if (kvp.Key.ToLower() == pNameLower) {
+                            Params.Remove(kvp.Key);
+                            break;
+                        }
+                    }
+                }
             }
         }
         
@@ -201,6 +203,19 @@ namespace org.herbal3d.cs.CommonUtil {
                 }
             }
             return ret;
+        }
+
+        public string DumpProps() {
+            StringBuilder buff = new StringBuilder();
+            foreach (var kvp in Params) {
+                if (buff.Length > 0) {
+                    buff.Append(",");
+                }
+                buff.Append(kvp.Key);
+                buff.Append("=");
+                buff.Append(ConvertTo<string>(kvp.Key));
+            }
+            return buff.ToString();
         }
     }
 }
