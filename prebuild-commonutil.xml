@@ -1,0 +1,17 @@
+    <Project frameworkVersion="netstandard2_0"
+                name="Herbal3d.CommonUtil"
+                path="addon-modules/HerbalCommonUtilCS"
+                type="Library">
+
+      <Configuration>
+        <Options>
+          <OutputPath>../../bin/</OutputPath>
+          <RootNamespace>org.herbal3d.cs.CommonUtil</RootNamespace>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../bin/</ReferencePath>
+
+      <PackageReference name="NLog" version="4.7.8"/>
+
+    </Project>
