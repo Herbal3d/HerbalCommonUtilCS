@@ -5,7 +5,7 @@
 
       <Configuration>
         <Options>
-          <OutputPath>../../bin/</OutputPath>
+          <OutDir>../../bin/</OutDir>
           <RootNamespace>org.herbal3d.cs.CommonUtil</RootNamespace>
         </Options>
       </Configuration>
