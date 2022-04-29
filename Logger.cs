@@ -43,6 +43,48 @@ namespace org.herbal3d.cs.CommonUtil {
         Error
     }
 
+    // Logger that eats all log message
+    public class BLoggerNull : BLogger {
+        void BLogger.Debug(string pMsg, params object[] pArgs) { }
+        void BLogger.Error(string pMsg, params object[] pArgs) { }
+        void BLogger.Info(string pMsg, params object[] pArgs) { }
+        void BLogger.SetLogLevel(LogLevels pLevel) { }
+        void BLogger.Trace(string pMsg, params object[] pArgs) { }
+        void BLogger.Warn(string pMsg, params object[] pArgs) { }
+    }
+
+    // Logger that does a raw console output
+    public class BLoggerConsole : BLogger {
+        protected LogLevels _logLevel = LogLevels.Information;
+        public BLoggerConsole() {
+        }
+        public void SetLogLevel(LogLevels pLevel) {
+            _logLevel = pLevel;
+        }
+        private void DoLog(LogLevels pLevel, string pMsg, params Object[] pArgs) {
+            Console.WriteLine(pMsg, pArgs);
+        }
+        public void Trace(string pMsg, params Object[] pArgs) {
+            if (_logLevel == LogLevels.Trace || _logLevel == LogLevels.Debug) {
+                DoLog(LogLevels.Trace, pMsg, pArgs);
+            }
+        }
+        public void Debug(string pMsg, params Object[] pArgs) {
+            if (_logLevel == LogLevels.Debug) {
+                DoLog(LogLevels.Debug, pMsg, pArgs);
+            }
+        }
+        public void Info(string pMsg, params Object[] pArgs) {
+            DoLog(LogLevels.Information, pMsg, pArgs);
+        }
+        public void Warn(string pMsg, params Object[] pArgs) {
+            DoLog(LogLevels.Warning, pMsg, pArgs);
+        }
+        public void Error(string pMsg, params Object[] pArgs) {
+            DoLog(LogLevels.Error, pMsg, pArgs);
+        }
+    }
+
     public class BLoggerNLog: BLogger {
         protected LogLevels _logLevel = LogLevels.Information;
         protected NLog.Logger _logger;
@@ -59,7 +101,10 @@ namespace org.herbal3d.cs.CommonUtil {
             var config = new NLog.Config.LoggingConfiguration();
 
             if (logToConsole) {
-                var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+                var logconsole = new NLog.Targets.ConsoleTarget("logconsole") {
+                    // Remove the long name of this modules from the output
+                    Layout = "${longdate}|${level: uppercase = true}||${message: withexception = true}"
+                };
                 config.AddRule(LogLevel.Trace, LogLevel.Fatal, logconsole);
             }
 
@@ -69,6 +114,7 @@ namespace org.herbal3d.cs.CommonUtil {
                     // https://github.com/nlog/nlog/wiki/File-target
                     FileName = logBaseFilename ?? "${basedir}/Logs/logfile.log",
                     CreateDirs = true,
+                    Layout = "${longdate}|${level: uppercase = true}||${message: withexception = true}",
                     LineEnding = NLog.Targets.LineEndingMode.LF,
                     // https://github.com/nlog/nlog/wiki/FileTarget-Archive-Examples#archive-numbering-examples
                     MaxArchiveFiles = 5,

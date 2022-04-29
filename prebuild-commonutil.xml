@@ -1,17 +1,33 @@
-    <Project forceFrameworkVersion="netstandard2_0"
-                name="Herbal3d.CommonUtil"
-                path="addon-modules/HerbalCommonUtilCS"
-                type="Library">
-
-      <Configuration>
+    <Project frameworkVersion="v4_8" name="Herbal3d.CommonUtil" path="addon-modules/HerbalCommonUtil" type="Library">
+      <Configuration name="Debug">
         <Options>
-          <OutDir>../../bin/</OutDir>
-          <RootNamespace>org.herbal3d.cs.CommonUtil</RootNamespace>
+          <OutputPath>../../../bin/</OutputPath>
+          <AllowUnsafe>true</AllowUnsafe>
+        </Options>
+      </Configuration>
+      <Configuration name="Release">
+        <Options>
+          <OutputPath>../../../bin/</OutputPath>
+          <AllowUnsafe>true</AllowUnsafe>
         </Options>
       </Configuration>
 
-      <ReferencePath>../../bin/</ReferencePath>
+      <ReferencePath>../../../bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Linq"/>
+      <Reference name="System.Collections.Generic"/>
+      <Reference name="System.ComponentModel"/>
+      <Reference name="System.Reflection;"/>
+      <Reference name="System.Security.Cryptography"/>
+      <Reference name="System.Text"/>
+      <Reference name="System.Threading.Tasks"/>
 
-      <PackageReference name="NLog" version="4.7.8"/>
+      <Reference name="NLog"/>
 
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="Tests" pattern="Tests"/>
+          <Exclude name="Object" pattern="obj"/>
+        </Match>
+      </Files>
     </Project>
