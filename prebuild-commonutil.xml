@@ -1,4 +1,4 @@
-    <Project frameworkVersion="v4_8" name="Herbal3d.CommonUtil" path="addon-modules/HerbalCommonUtil" type="Library">
+    <Project frameworkVersion="v4_8" name="Herbal3d.CommonUtil" path="addon-modules/HerbalCommonUtilCS" type="Library">
       <Configuration name="Debug">
         <Options>
           <OutputPath>../../../bin/</OutputPath>
@@ -15,11 +15,7 @@
       <ReferencePath>../../../bin/</ReferencePath>
       <Reference name="System"/>
       <Reference name="System.Linq"/>
-      <Reference name="System.Collections.Generic"/>
       <Reference name="System.ComponentModel"/>
-      <Reference name="System.Reflection;"/>
-      <Reference name="System.Security.Cryptography"/>
-      <Reference name="System.Text"/>
       <Reference name="System.Threading.Tasks"/>
 
       <Reference name="NLog"/>
