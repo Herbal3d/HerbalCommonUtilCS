@@ -146,6 +146,15 @@ namespace org.herbal3d.cs.CommonUtil {
                 }
             }
         }
+
+        // Copy the parameters from this ParamBlock into a dictionary
+        public void CopyTo(Dictionary<string, object> pDst) {
+            lock (Params) {
+                foreach (var kvp in Params) {
+                    pDst.Add(kvp.Key, kvp.Value);
+                }
+            }
+        }
         
 
         // Cool routine to convert an object to the request type

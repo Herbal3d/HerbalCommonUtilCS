@@ -31,7 +31,7 @@ namespace org.herbal3d.cs.CommonUtil {
         // Note that this is not cryptographically random.
         static Random _randomStringRandom = new Random();
         public static string RandomString(int pLen) {
-            int len = Clamp<int>(pLen, 0, 128);
+            int len = Clamp<int>(pLen, 1, 128);
             string digits = "0123456789";
             return String.Join("", Enumerable.Range(0, len).Select( ii => {
                 return digits[_randomStringRandom.Next(0, 10)];
