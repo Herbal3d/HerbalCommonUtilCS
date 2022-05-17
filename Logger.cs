@@ -103,7 +103,8 @@ namespace org.herbal3d.cs.CommonUtil {
             if (logToConsole) {
                 var logconsole = new NLog.Targets.ConsoleTarget("logconsole") {
                     // Remove the long name of this modules from the output
-                    Layout = "${longdate}|${level: uppercase = true}||${message: withexception = true}"
+                    // Layout = "${longdate}|${level: uppercase = true}||${message: withexception = true}"
+                    Layout = "${longdate}|${level: uppercase = true}||${message}"
                 };
                 config.AddRule(LogLevel.Trace, LogLevel.Fatal, logconsole);
             }
@@ -114,7 +115,8 @@ namespace org.herbal3d.cs.CommonUtil {
                     // https://github.com/nlog/nlog/wiki/File-target
                     FileName = logBaseFilename ?? "${basedir}/Logs/logfile.log",
                     CreateDirs = true,
-                    Layout = "${longdate}|${level: uppercase = true}||${message: withexception = true}",
+                    // Layout = "${longdate}|${level: uppercase = true}||${message: withexception = true}",
+                    Layout = "${longdate}|${level: uppercase = true}||${message}",
                     LineEnding = NLog.Targets.LineEndingMode.LF,
                     // https://github.com/nlog/nlog/wiki/FileTarget-Archive-Examples#archive-numbering-examples
                     MaxArchiveFiles = 5,
