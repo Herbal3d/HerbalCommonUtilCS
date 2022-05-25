@@ -1,70 +1,63 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C0DFAC61-6999-4278-855F-0E9BCA2E8625}</ProjectGuid>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Herbal3d.CommonUtil</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RuntimeFrameworkVersion>5.0.0</RuntimeFrameworkVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
     <AssemblyName>Herbal3d.CommonUtil</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+      <BaseAddress>285212672</BaseAddress>
+      <ConfigurationOverrideFile>
+      </ConfigurationOverrideFile>
+      <DefineConstants>TRACE;DEBUG;</DefineConstants>
+      <DocumentationFile></DocumentationFile>
+      <DebugSymbols>True</DebugSymbols>
+      <FileAlignment>4096</FileAlignment>
+      <Optimize>False</Optimize>
+      <TieredCompilation>false</TieredCompilation>
+      <OutputPath>bin/</OutputPath>
+      <RegisterForComInterop>False</RegisterForComInterop>
+      <RemoveIntegerChecks>False</RemoveIntegerChecks>
+      <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+      <WarningLevel>4</WarningLevel>
+      <NoStdLib>False</NoStdLib>
+      <NoWarn></NoWarn>
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+      <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+      <BaseAddress>285212672</BaseAddress>
+      <ConfigurationOverrideFile>
+      </ConfigurationOverrideFile>
+      <DefineConstants></DefineConstants>
+      <DocumentationFile></DocumentationFile>
+      <DebugSymbols>False</DebugSymbols>
+      <FileAlignment>4096</FileAlignment>
+      <Optimize>True</Optimize>
+      <TieredCompilation>false</TieredCompilation>
+      <OutputPath>bin/</OutputPath>
+      <RegisterForComInterop>False</RegisterForComInterop>
+      <RemoveIntegerChecks>False</RemoveIntegerChecks>
+      <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+      <WarningLevel>4</WarningLevel>
+      <NoStdLib>False</NoStdLib>
+      <NoWarn></NoWarn>
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+  <PropertyGroup>
+    <OutDir>../../bin/</OutDir>
+    <RootNamespace>org.herbal3d.cs.CommonUtil/</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.4.7.15\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Linq" />
-    <Reference Include="System.ComponentModel" />
-    <Reference Include="System.Reflection" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Threading.Tasks" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="NLog" Version="4.7.15" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BHasher.cs" />
-    <Compile Include="BTimeSpan.cs" />
-    <Compile Include="IParameters.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="ParamBlock.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceParameters.cs" />
-    <Compile Include="Util.cs" />
-    <Compile Include="VersionInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LICENSE" />
-    <None Include="packages.config" />
-    <None Include="README.md" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
+
