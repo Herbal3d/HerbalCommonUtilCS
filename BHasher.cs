@@ -213,7 +213,7 @@ namespace org.herbal3d.cs.CommonUtil {
     // A hasher that builds up a buffer of bytes ('building') and then hashes over same
     public abstract class BHasherBytes : BHasher {
         protected byte[] building;
-        protected int buildingLoc;
+        protected int buildingLoc; 
         protected int allocStep = 1024;
 
         public BHasherBytes() : base() {
@@ -389,7 +389,7 @@ namespace org.herbal3d.cs.CommonUtil {
 
         public override BHash Finish(byte[] c, int offset, int len) {
             using (SHA256CryptoServiceProvider SHA256 = new SHA256CryptoServiceProvider()) {
-                if (building.Length > 0) {
+                if (buildingLoc > 0) {
                     AddBytes(c, offset, len);
                     hash = new BHashBytes(SHA256.ComputeHash(building, 0, buildingLoc));
                 }
