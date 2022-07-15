@@ -61,7 +61,7 @@ namespace org.herbal3d.cs.CommonUtil {
                 }
                 if (pPassedParams != null && pPassedParams.HasParam(paramName)) {
                     // parameter value has been passed so it override config file
-                    SetParam(paramName, pPassedParams.GetValue(paramName));
+                    SetParam(paramName, pPassedParams.GetObjectValue(paramName));
                 }
                 // If the above doesn't define a value, enter the default value
                 if (!Params.ContainsKey(paramName)) {
@@ -92,14 +92,6 @@ namespace org.herbal3d.cs.CommonUtil {
                 }
             }
         }
-        public object GetValue(string pParamName) {
-            object val = null;
-            string key = pParamName.ToLower();
-            if (LowerParams.ContainsKey(key)) {
-                val = LowerParams[key];
-            }
-            return val;
-        }
 
         // Get the parameter value of the type desired
         public T P<T>(string pParam) {
@@ -113,7 +105,6 @@ namespace org.herbal3d.cs.CommonUtil {
         public object GetObjectValue(string pParamName) {
             LowerParams.TryGetValue(pParamName.ToLower(), out object ret);
             return ret;
-            
         }
 
         public ParamBlock Add(string pName, Object pValue) {

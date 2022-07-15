@@ -3,8 +3,8 @@
 using System;
 namespace org.herbal3d.cs.CommonUtil {
     public class VersionInfo {
-        public static string appVersion = "2.0.5";
-        public static string longVersion = "2.0.5-20220528-4eda4e66";
-        public static string buildDate = "20220528";
+        public static string appVersion = "2.0.6";
+        public static string longVersion = "2.0.6-20220715-b7407240";
+        public static string buildDate = "20220715";
     }
 }
