@@ -102,6 +102,11 @@ namespace org.herbal3d.cs.CommonUtil {
             return ret;
         }
 
+        // Getter that returns the object values with "ParamBlock[paramName]" syntax
+        public object this[string pParams] {
+            get { return GetObjectValue(pParams); }
+        }
+
         public object GetObjectValue(string pParamName) {
             LowerParams.TryGetValue(pParamName.ToLower(), out object ret);
             return ret;
