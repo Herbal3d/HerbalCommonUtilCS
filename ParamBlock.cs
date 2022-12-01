@@ -30,10 +30,23 @@ namespace org.herbal3d.cs.CommonUtil {
         public ParamBlock() {
         }
 
+        // Create ParamBlock with a defined set of parameters
         public ParamBlock(Dictionary<string, object> pPreload) {
             foreach (var kvp in pPreload) {
                 Add(kvp.Key, kvp.Value);
             }
+        }
+
+        // Create ParamBlock from passed parameters and a set of required parameters
+        public ParamBlock(ParamBlock pPassedParams, Dictionary<string, object> pRequiredParams) {
+            BuildBlock(null, pPassedParams, new ParamBlock(pRequiredParams));
+        }
+
+        // Create ParamBlock from mixture of config params, passed params, and required params
+        public ParamBlock(IParameters pConfigParams,
+                          ParamBlock pPassedParams,
+                          ParamBlock pRequiredParams) {
+            BuildBlock(pConfigParams, pPassedParams, pRequiredParams);
         }
 
         // Configuration comes from the configuration file (Config), parameters at
@@ -46,7 +59,7 @@ namespace org.herbal3d.cs.CommonUtil {
         //    default/required values.
         // NOTE: everything is forced to all lowercase thus the resulting value
         //    lookup MUST be looking for a lowercase only value.
-        public ParamBlock(IParameters pConfigParams,
+        public ParamBlock BuildBlock(IParameters pConfigParams,
                           ParamBlock pPassedParams,
                           ParamBlock pRequiredParams) {
 
@@ -68,6 +81,7 @@ namespace org.herbal3d.cs.CommonUtil {
                     SetParam(paramName, pRequiredParams.Params[paramNameX]);
                 }
             }
+            return this;
         }
 
         public bool HasParam(string pParamName) {
